@@ -1,0 +1,2 @@
+ - syntastic's syntax highlighting requires installation of the exuberant ctags package
+   and npm installation of jshint if using jshint provider

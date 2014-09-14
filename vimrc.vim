@@ -10,15 +10,28 @@ augroup myvimrchooks
     autocmd bufwritepost .vimrc source ~/.vimrc
 augroup END
 
+:map <Leader>t  tabn <Esc>
+
+" ---- solarized
 set background=dark
 " let g:solarized_termcolors=256
 colorscheme solarized
 
-" tagbar
+" ---- tagbar
 nmap <F7> :TagbarToggle<CR>	
 " let g:tagbar_left = 1
+nmap <leader>nt :NERDTree<CR>
 
-" Here's the vimclojure stuff. You'll need to adjust the NailgunClient
+" ---- Syntastic
+" On by default, turn it off for html
+let g:syntastic_mode_map = { 'mode': 'active',
+	\ 'active_filetypes': [],
+	\ 'passive_filetypes': ['html'] }
+" Use jshint (uses ~/.jshintrc)
+" let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['jshint']
+
+" ---- vimclojure stuff. You'll need to adjust the NailgunClient
 " setting if you're on windows or have other problems.
 let vimclojure#FuzzyIndent=1
 let vimclojure#HighlightBuiltins=1
@@ -28,7 +41,7 @@ let vimclojure#ParenRainbow=1
 let vimclojure#WantNailgun = 1
 let vimclojure#NailgunClient = $HOME . "/.vim/lib/vimclojure-nailgun-client/ng"
 
-"settings for neocomplcache.  nothing said about how it works
+" ---- neocomplcache.  nothing said about how it works
 "with the vimclojure stuff above
 let g:neocomplcache_enable_at_startup = 1
 let g:acp_enableAtStartup = 0
@@ -89,10 +102,10 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" Paredit
+" ----Paredit
 let g:paredit_mode = 1
 
-" power line
+" ----power line
 set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 
 " Always show statusline
