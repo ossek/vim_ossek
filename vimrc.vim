@@ -11,6 +11,11 @@ augroup myvimrchooks
 augroup END
 
 :map <Leader>t  tabn <Esc>
+" ---- windows
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 " ---- solarized
 set background=dark
@@ -18,6 +23,7 @@ set background=dark
 colorscheme solarized
 
 " ---- tagbar
+" ---- for it to work with js, try the jsctags with tern at https://github.com/ramitos/jsctags
 nmap <F7> :TagbarToggle<CR>	
 " let g:tagbar_left = 1
 nmap <leader>nt :NERDTree<CR>
