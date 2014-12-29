@@ -28,10 +28,10 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 " ---- tabs
-nnoremap th  :tabfirst<CR>
-nnoremap tj  :tabnext<CR>
-nnoremap tk  :tabprev<CR>
-nnoremap tl  :tablast<CR>
+nnoremap tw  :tabfirst<CR>
+nnoremap tl  :tabnext<CR>
+nnoremap th  :tabprev<CR>
+nnoremap te  :tablast<CR>
 nnoremap tt  :tabedit<Space>
 nnoremap tn  :tabnext<Space>
 nnoremap tm  :tabm<Space>
@@ -56,16 +56,6 @@ let g:syntastic_mode_map = { 'mode': 'active',
 " Use jshint (uses ~/.jshintrc)
 " let g:syntastic_javascript_checkers = ['jshint']
 let g:syntastic_javascript_checkers = ['jshint']
-
-" ---- vimclojure stuff. You'll need to adjust the NailgunClient
-" setting if you're on windows or have other problems.
-let vimclojure#FuzzyIndent=1
-let vimclojure#HighlightBuiltins=1
-let vimclojure#HighlightContrib=1
-let vimclojure#DynamicHighlighting=1
-let vimclojure#ParenRainbow=1
-let vimclojure#WantNailgun = 1
-let vimclojure#NailgunClient = $HOME . "/.vim/lib/vimclojure-nailgun-client/ng"
 
 " ---- neocomplcache.  nothing said about how it works
 "with the vimclojure stuff above
@@ -128,11 +118,21 @@ autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
-" ----Paredit
-let g:paredit_mode = 1
+" With vim jedi
+" as on https://github.com/davidhalter/jedi-vim/issues/26
+if !exists('g:neocomplcache_omni_functions')
+    let g:neocomplcache_omni_functions = {}
+endif
+let g:neocomplcache_omni_functions['python'] = 'jedi#completions'
+let g:jedi#popup_on_dot = 0
+" let g:neocomplcache_force_omni_patterns.python = '[^. \t]\.\w*'
+
+" jedi -vim
+" " may slow down for large files
+" let g:jedi#popup_on_dot = 1
 
 " ----power line
-set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+" set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
 
 " Always show statusline
 set laststatus=2
@@ -140,74 +140,60 @@ set laststatus=2
 " Use 256 colours (Use this setting only if your terminal supports 256
 " colours)
 " set t_Co=256
+"
 
-""* the separator used on the left side >
-"  let g:airline_left_sep='>'
-""
-"" the separator used on the right side >
-"  let g:airline_right_sep='<'
-""
-"" enable modified detection >
-"  let g:airline_detect_modified=1
-"
-"" enable paste detection >
-"  let g:airline_detect_paste=1
-"
-"" enable iminsert detection >
-"  let g:airline_detect_iminsert=0
-"
-"" determine whether inactive windows should have the left section collapsed to
-"" only the filename of that buffer.  >
-"  let g:airline_inactive_collapse=1
-"
-"" themes are automatically selected based on the matching colorscheme. this
-"" can be overridden by defining a value. >
-"" let g:airline_theme=
-"
-"" if you want to patch the airline theme before it gets applied, you can
-"" supply the name of a function where you can modify the palette. >
-""  let g:airline_theme_patch_func = 'AirlineThemePatch'
-""  function! AirlineThemePatch(palette)
-""    if g:airline_theme == 'badwolf'
-""      for colors in values(a:palette.inactive)
-""        let colors[3] = 245
-""      endfor
-""    endif
-""  endfunction
-"
-"" enable/disable automatic selection of patched powerline font symbols >
-"  let g:airline_powerline_fonts=0
-"
-"" define the set of text to display for each mode.  >
-"  let g:airline_mode_map = {} " see source for the defaults
-"
-"  " or copy paste the following into your vimrc for shortform text
-"  let g:airline_mode_map = {
-"      \ '__' : '-',
-"      \ 'n'  : 'N',
-"      \ 'i'  : 'I',
-"      \ 'R'  : 'R',
-"      \ 'c'  : 'C',
-"      \ 'v'  : 'V',
-"      \ 'V'  : 'V',
-"      \ 's'  : 'S',
-"      \ 'S'  : 'S' }
-"
-"" define the set of filename match queries which excludes a window from having
-"" its statusline modified >
-"  let g:airline_exclude_filenames = [] " see source for current list
-"
-"" define the set of filetypes which are excluded from having its window
-"" statusline modified >
-"  let g:airline_exclude_filetypes = [] " see source for current list
-"
-"" defines whether the preview window should be excluded from have its window
-"" statusline modified (may help with plugins which use the preview window
-"" heavily) >
-"  let g:airline_exclude_preview = 0
-"  
-"  let g:airline_theme='molokai'
-"
-"  set laststatus=2
-"
-"  set t_Co=256
+let g:airline_theme ='kalisi'
+
+" let g:airline_theme_patch_func = 'AirlineThemePatch'
+" function! AirlineThemePatch(palette)
+"   if g:airline_theme == 'kalisi'
+"     for colors in values(a:palette.inactive)
+"       let colors[3] = 245
+"     endfor
+"   endif
+" endfunction
+
+let g:airline_mode_map = {
+    \ '__' : '-',
+    \ 'n'  : 'N',
+    \ 'i'  : 'I',
+    \ 'R'  : 'R',
+    \ 'c'  : 'C',
+    \ 'v'  : 'V',
+    \ 'V'  : 'V',
+    \ '' : 'V',
+    \ 's'  : 'S',
+    \ 'S'  : 'S',
+    \ '' : 'S',
+    \ }
+
+if !exists('g:airline_symbols')
+  let g:airline_symbols = {}
+endif
+
+" unicode symbols
+let g:airline_left_sep = '»'
+let g:airline_left_sep = '▶'
+let g:airline_right_sep = '«'
+let g:airline_right_sep = '◀'
+let g:airline_symbols.linenr = '␊'
+let g:airline_symbols.linenr = '␤'
+let g:airline_symbols.linenr = '¶'
+let g:airline_symbols.branch = '⎇'
+let g:airline_symbols.paste = 'ρ'
+let g:airline_symbols.paste = 'Þ'
+let g:airline_symbols.paste = '∥'
+let g:airline_symbols.whitespace = 'Ξ'
+
+" powerline symbols
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+"let g:airline_symbols.readonly = ''
+let g:airline_symbols.readonly = 'R'
+let g:airline_symbols.linenr = ''
+
+
+
